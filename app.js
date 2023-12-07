@@ -31,6 +31,7 @@ async function main() {
   try {
       await mongoose.connect(url);
       console.log('connection ok');
+      console.log(process.env);
   } finally {
       // mongoose.connection.close();
   }
