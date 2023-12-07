@@ -5,11 +5,16 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const date = require(__dirname + "/date.js");
+try {
+  const localEnvVars = require(__dirname + "/localEnvVars.js");
+  localEnvVars.load();
+} catch (err) {
+}
 
 const app = express();
 const port = 3000;
 //const url = 'mongodb://127.0.0.1:27017/toDoListDB';
-const url = 'mongodb+srv://julian89net:wuN8i50sc59lXcjH@cluster0.zmamtu8.mongodb.net/toDoListDB';
+const url = `mongodb+srv://${process.env.mongoUser}:${process.env.mongoPass}@cluster0.zmamtu8.mongodb.net/toDoListDB`;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,7 +36,7 @@ async function main() {
   try {
       await mongoose.connect(url);
       console.log('connection ok');
-      console.log(process.env);
+      //console.log(process.env);
   } finally {
       // mongoose.connection.close();
   }
